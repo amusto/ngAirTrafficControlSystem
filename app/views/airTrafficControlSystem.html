@@ -1,0 +1,63 @@
+<div style="float:left; width:100%; margin: 10px;">
+    <div style="float:right; margin:10px;">Active Aircraft:{{airTrafficManager.details.totalActiveAircraft}} | Todays Aircraft:{{airTrafficManager.details.overallTotalAircraft}}</div>
+</div>
+
+<div class="container">
+
+    <div class="row" ng-show="displayConsole">
+        <div class="col-md-4">
+            <div id="registerForm" data-ng-show="displayRegisterAircraft" style="margin-top: 10px;">
+                <strong>Arrival time: {{newAircraft.arrivalTime | date:'h:mma'}}</strong>
+
+                <form class="form-horizontal" role="form" name="form-incomingFlight" method="post">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <select id="type" data-ng-model="incomingAircraft.type" class="form-control">
+                                <option value="0">select type</option>
+                                <option value="passenger">Passenger</option>
+                                <option value="cargo">Cargo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <select id="size" data-ng-model="incomingAircraft.size" class="form-control">
+                                <option value="0" selected>select size</option>
+                                <option value="small"  selected>Small</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary commandButton" aria-pressed="false" autocomplete="off" data-ng-click="aqm_request_process.enQueueAircraft()" ng-disabled="incomingAircraft.size==0 || incomingAircraft.type==0 ">
+                            Register incoming Aircraft
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--ARRIVALS-->
+        <div class="col-md-4">
+            <h2>Current Arrivals</h2>
+            <div class="list-group">
+                <div class="list-group-item list-group-item-success" ng-repeat="a in currentQueue track by $index">
+                    <span class="badge">{{a.arrivalTime | date:'h:mm:ss a'}}</span>
+                    ({{$index}}) - {{a.type}} {{a.size}}
+                </div>
+            </div>
+            <div id="noResults" data-ng-show="currentQueue.length == 0"><strong>Currently no flights, take a break!</strong></div>
+        </div>
+        <!--SCHEDULED DEPARTURES-->
+        <div class="col-md-4">
+            <h2>Scheduled Departures</h2>
+            <div class="list-group">
+                <div class="list-group-item list-group-item-info" ng-repeat="a in currentQueue track by $index">
+                    <span class="glyphicon glyphicon-minus" ng-show="$index==0" data-ng-click="aqm_request_process.deQueueAircraft($index)"></span>
+                    <span class="badge">{{a.arrivalTime | date:'h:mm:ss a'}}</span>
+                    ({{$index}}) - {{a.type}} {{a.size}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

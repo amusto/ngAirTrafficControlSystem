@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body>
+
+<div class="navigationHeader" ng-controller="controllerMainConsole">
+    <div style="float:left; margin:10px;">
+        <a data-ng-click="registerAircraft()" style="text-decoration:none; font-weight:bold;">Register an incoming flight</a>
+    </div>
+
+    <div class="navContainer" id="options" style="text-align:right;">
+        <button type="button" id="buttonPowerOn" data-loading-text="Starting..." class="btn btn-success" autocomplete="off" ng-show="!displayConsole" data-ng-click="aqm_request_process.systemBoot('on')">
+            <span class="glyphicon glyphicon-off"></span> Start App
+        </button>
+        <button type="button" id="buttonPowerOff" data-loading-text="Shutting down..." class="btn btn-danger" autocomplete="off" ng-show="displayConsole" data-ng-click="aqm_request_process.systemBoot('off')">
+            <span class="glyphicon glyphicon-off"></span> Shutdown
+        </button>
+        <!--div style="text-align: right;">
+            Status: {{mySystem.status}}<br>
+            <span ng-show="mySystem.status=='active'">Started: {{mySystem.startupTime | date:'h:mma'}}</span>
+            <span ng-show="mySystem.status=='inactive'"> Shutdown: {{mySystem.shutdownTime | date:'h:mma'}}</span>
+        </div-->
+    </div>
+</div>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="mainContent" >
+
+      <div ng-view></div>
+
+  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
+    <script src="app.js"></script>
+    <script src="components/version/version.js"></script>
+    <script src="components/version/version-directive.js"></script>
+    <script src="components/version/interpolate-filter.js"></script>
+</body>
+</html>
