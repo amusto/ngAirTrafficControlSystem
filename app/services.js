@@ -49,15 +49,6 @@ myServices.factory('acQueue', function(){
 myServices.factory('airTrafficDataFactory', ['$q', function($q){
     var service = {};
 
-    service.addAirCraft = function(ac){
-        var status = 'success';
-        var airCraft = ac;
-
-        console.log(this.getAircraftQueue());
-
-        return airCraft;
-    };
-
     service.getManager = function(){
         return {
             queue:[]

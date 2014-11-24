@@ -17,6 +17,19 @@
     <link rel="stylesheet" href="app.css">
     <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
+    <script>
+
+        if (Modernizr.localstorage) {
+            // window.localStorage is available!
+            //console.log('local storage is available')
+        } else {
+            // no native support for HTML5 storage :(
+            // maybe try dojox.storage or a third-party solution
+            //console.log('no support for local storage')
+        }
+
+    </script>
+
 </head>
 <body>
 

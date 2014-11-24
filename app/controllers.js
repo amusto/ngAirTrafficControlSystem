@@ -11,25 +11,15 @@ myControllers.controller('controllerMainConsole', ["$scope", "$rootScope", "syst
     $scope.aircraftStructure = {
         type: 'passenger',
         size: 'large',
-        arrivalTime: '',
-        departureTime: '',
-        airline: '',
-        tailNum: '',
-        departurePriority: ''
+        arrivalTime: ''
     };
-    $scope.currentQueue = $scope.airTrafficManager.queue;
-    console.log($scope.currentQueue);
+    $scope.currentQueue = $scope.airTrafficManager.queue; //Change this to master Queue
+    $scope.currentArrivalQueue = [];
 
     $scope.pageTitle = "Main Control Panel";
     $scope.pageMessage = "Welcome to my Air Traffic Control System";
 
-
     $rootScope.aqm_request_process = (function() {
-
-        /*var privateCounter = 0;
-        function changeBy(val) {
-            privateCounter += val;
-        }*/
 
         return {
             systemBoot: function(command) {
@@ -52,46 +42,65 @@ myControllers.controller('controllerMainConsole', ["$scope", "$rootScope", "syst
                 var aircraftObject = {
                     type: $scope.incomingAircraft.type,
                     size: $scope.incomingAircraft.size,
-                    arrivalTime: $scope.incomingAircraft.arrivalTime,
-                    departureTime: $scope.incomingAircraft.departureTime,
+                    arrivalTime: Date.now(),
+                    departureTime: '',
                     airline: '',
                     tailNum: '',
                     departurePriority: ''
                 };
+                $scope.currentArrivalQueue.push(aircraftObject);
+                console.log($scope.currentArrivalQueue);
                 $scope.airTrafficManager.queue.push(aircraftObject);
                 $scope.airTrafficManager.details.totalActiveAircraft=++$scope.airTrafficManager.details.totalActiveAircraft;
                 $scope.airTrafficManager.details.overallTotalAircraft=++$scope.airTrafficManager.details.overallTotalAircraft;
-                $rootScope.displayRegisterAircraft = false;
-                console.log($scope.airTrafficManager);
+                //$rootScope.displayRegisterAircraft = false;
+                $scope.newQueue = $scope.airTrafficManager.queue;
+
+                var thisQueue = $scope.newQueue;
+                thisQueue.sort(function(a, b){
+                    var typeA=a.type.toLowerCase(), typeB=b.type.toLowerCase()
+                    var sizeA=a.size.toLowerCase(), sizeB=b.size.toLowerCase()
+                    var arrivalTimeA=a.arrivalTime, arrivalTimeB=b.arrivalTime
+                    if (typeA == 'passenger' && typeB == 'cargo') //sort string ascending
+                        return -1
+                    if (typeA == 'cargo' && typeB == 'passenger') //sort string ascending
+                        return 1
+                    if((typeA == 'passenger' && typeB == 'passenger') && (sizeA == 'large' && sizeB == 'small')) //sort string ascending
+                        return -1
+                    if((typeA == 'passenger' && typeB == 'passenger') && (sizeA == 'small' && sizeB == 'large')) //sort string ascending
+                        return 1
+                    if((typeA == 'cargo' && typeB == 'cargo') && (sizeA == 'large' && sizeB == 'small')) //sort string ascending
+                        return -1
+                    if((typeA == 'cargo' && typeB == 'cargo') && (sizeA == 'small' && sizeB == 'large')) //sort string ascending
+                        return 1
+                    if((typeA == 'passenger' && typeB == 'passenger') && (arrivalTimeA > arrivalTimeB)) //sort string ascending
+                        return -1
+                    if((typeA == 'passenger' && typeB == 'passenger') && (arrivalTimeB > arrivalTimeA)) //sort string ascending
+                        return 1
+                    if((typeA == 'cargo' && typeB == 'cargo') && (arrivalTimeA > arrivalTimeB)) //sort string ascending
+                        return -1
+                    if((typeA == 'cargo' && typeB == 'cargo') && (arrivalTimeB > arrivalTimeA)) //sort string ascending
+                        return 1
+
+                    return 0 //default return value (no sorting)
+                })
+
+
             },
             deQueueAircraft: function(index) {
-                //add function here
-                console.log(index);
                 $scope.airTrafficManager.queue.splice(index, 1);
                 $scope.airTrafficManager.details.totalActiveAircraft=--$scope.airTrafficManager.details.totalActiveAircraft;
             }
         };
     })();
 
-    /*$scope.getCurrentQueue = function(){
-        airTrafficDataFactory.getAircraftQueue()
-            .then(function(data){
-                $rootScope.currentQueue = data;
-            })
-    };
-    $scope.getCurrentQueue();*/
-
     $scope.registerAircraft = function(){
         var newAircraft = $scope.aircraftStructure;
-        console.log(newAircraft);
         newAircraft.arrivalTime = Date.now();
         $rootScope.incomingAircraft = newAircraft;
-        console.log($rootScope.incomingAircraft);
         $rootScope.displayRegisterAircraft = true;
-        console.log($rootScope.displayRegisterAircraft);
-
-
-        //disable register button
     };
 
 }]);
+
+

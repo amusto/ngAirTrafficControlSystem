@@ -41,7 +41,7 @@
         <div class="col-md-4">
             <h2>Current Arrivals</h2>
             <div class="list-group">
-                <div class="list-group-item list-group-item-success" ng-repeat="a in currentQueue track by $index">
+                <div class="list-group-item list-group-item-success" ng-repeat="a in currentArrivalQueue | orderBy:a.arrivalTime track by $index">
                     <span class="badge">{{a.arrivalTime | date:'h:mm:ss a'}}</span>
                     ({{$index}}) - {{a.type}} {{a.size}}
                 </div>
@@ -50,7 +50,7 @@
         </div>
         <!--SCHEDULED DEPARTURES-->
         <div class="col-md-4">
-            <h2>Scheduled Departures</h2>
+            <h2>Ready for departure</h2>
             <div class="list-group">
                 <div class="list-group-item list-group-item-info" ng-repeat="a in currentQueue track by $index">
                     <span class="glyphicon glyphicon-minus" ng-show="$index==0" data-ng-click="aqm_request_process.deQueueAircraft($index)"></span>
