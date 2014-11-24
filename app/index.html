@@ -35,21 +35,21 @@
 
 <div class="navigationHeader" ng-controller="controllerMainConsole">
     <div style="float:left; margin:10px;">
-        <a data-ng-click="registerAircraft()" style="text-decoration:none; font-weight:bold;">Register an incoming flight</a>
+        <button type="button" class="btn btn-primary commandButton" aria-pressed="false" autocomplete="off" data-ng-click="registerAircraft()" ng-show="displayConsole">
+            Register incoming Aircraft
+        </button>
     </div>
+
+
+
 
     <div class="navContainer" id="options" style="text-align:right;">
         <button type="button" id="buttonPowerOn" data-loading-text="Starting..." class="btn btn-success" autocomplete="off" ng-show="!displayConsole" data-ng-click="aqm_request_process.systemBoot('on')">
-            <span class="glyphicon glyphicon-off"></span> Start App
+            <span class="glyphicon glyphicon-off"></span> System Boot
         </button>
         <button type="button" id="buttonPowerOff" data-loading-text="Shutting down..." class="btn btn-danger" autocomplete="off" ng-show="displayConsole" data-ng-click="aqm_request_process.systemBoot('off')">
-            <span class="glyphicon glyphicon-off"></span> Shutdown
+            <span class="glyphicon glyphicon-off"></span> System Shutdown
         </button>
-        <!--div style="text-align: right;">
-            Status: {{mySystem.status}}<br>
-            <span ng-show="mySystem.status=='active'">Started: {{mySystem.startupTime | date:'h:mma'}}</span>
-            <span ng-show="mySystem.status=='inactive'"> Shutdown: {{mySystem.shutdownTime | date:'h:mma'}}</span>
-        </div-->
     </div>
 </div>
 
